@@ -1,0 +1,24 @@
+{
+  "name": "kangarooposti-website",
+  "version": "1.0.0",
+  "description": "Kangarooposti one-page website with customer and admin portal",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev:memory": "USE_MEMORY_DB=true node server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.4"
+  }
+}

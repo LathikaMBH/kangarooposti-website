@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kangarooposti</title>
+<meta name="description" content="Kangarooposti delivers flyers, leaflets and letters to homes in Rauma and Eurajoki.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: violet header block (sticky nav + hero, rounded bottom corners) over a near-white body of single-column sections */
+:root {
+  --accent: #5B21B6;
+  --accent-strong: #4C1D95;
+  --accent-text: #5B21B6;
+  --accent-tint: rgba(91, 33, 182, 0.10);
+  --header-bg: #5B21B6;
+  --on-accent: #FFFFFF;
+  --on-accent-muted: rgba(255, 255, 255, 0.78);
+  --bg: #FAFAFB;
+  --surface: #FFFFFF;
+  --surface-2: #F4F1F9;
+  --border: #ECEAF0;
+  --text: #221933;
+  --muted: #6E6780;
+  --ok: #15803D;   --ok-tint: rgba(21, 128, 61, 0.12);
+  --warn: #B45309; --warn-tint: rgba(180, 83, 9, 0.12);
+  --info: #1D4ED8; --info-tint: rgba(29, 78, 216, 0.10);
+  --danger: #B91C1C;
+  --shadow: 0 10px 30px rgba(34, 25, 51, 0.10);
+  --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --r-card: 14px;
+  --r-pill: 999px;
+  --r-header: 28px;
+  --wrap: 1120px;
+  --gutter: clamp(16px, 4vw, 32px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent: #7C3AED; --accent-strong: #6D28D9; --accent-text: #B79CFA; --accent-tint: rgba(167, 139, 250, 0.14);
+    --header-bg: #3B1782; --on-accent: #FFFFFF; --on-accent-muted: rgba(255, 255, 255, 0.75);
+    --bg: #131019; --surface: #1C1725; --surface-2: #241D30; --border: #30283D; --text: #EEEAF6; --muted: #A9A1BA;
+    --ok: #4ADE80; --ok-tint: rgba(74, 222, 128, 0.14); --warn: #FBBF24; --warn-tint: rgba(251, 191, 36, 0.14);
+    --info: #93C5FD; --info-tint: rgba(147, 197, 253, 0.14); --danger: #F87171;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --accent: #7C3AED; --accent-strong: #6D28D9; --accent-text: #B79CFA; --accent-tint: rgba(167, 139, 250, 0.14);
+  --header-bg: #3B1782; --on-accent: #FFFFFF; --on-accent-muted: rgba(255, 255, 255, 0.75);
+  --bg: #131019; --surface: #1C1725; --surface-2: #241D30; --border: #30283D; --text: #EEEAF6; --muted: #A9A1BA;
+  --ok: #4ADE80; --ok-tint: rgba(74, 222, 128, 0.14); --warn: #FBBF24; --warn-tint: rgba(251, 191, 36, 0.14);
+  --info: #93C5FD; --info-tint: rgba(147, 197, 253, 0.14); --danger: #F87171;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+[hidden] { display: none !important; }
+h1, h2, h3 { line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: var(--accent-text); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent-text); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gutter); }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text); }
+
+/* ---------- Header / nav ---------- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--header-bg); color: var(--on-accent); }
+.top.scrolled { box-shadow: 0 6px 20px rgba(20, 8, 45, 0.25); }
+.nav { display: flex; align-items: center; gap: 24px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--on-accent); text-decoration: none; font-weight: 800; font-size: 19px; letter-spacing: -0.02em; }
+.brand svg { flex: none; }
+.brand small { font-weight: 600; opacity: 0.7; font-size: 13px; letter-spacing: 0; }
+.links { display: flex; gap: 4px; margin-left: auto; list-style: none; padding: 0; margin-block: 0; }
+.links a { display: block; padding: 8px 12px; border-radius: var(--r-pill); color: var(--on-accent-muted); text-decoration: none; font-weight: 600; font-size: 15px; transition: background .15s, color .15s; }
+.links a:hover { color: var(--on-accent); background: rgba(255, 255, 255, 0.10); }
+.links a.active { color: var(--on-accent); background: rgba(255, 255, 255, 0.16); }
+.portal-btn { display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; background: #FFFFFF; color: #4C1D95; font-weight: 800; font-size: 15px; padding: 10px 18px; border-radius: var(--r-pill); white-space: nowrap; box-shadow: 0 4px 14px rgba(20, 8, 45, 0.25); transition: transform .15s; }
+.portal-btn:hover { transform: translateY(-1px); }
+.portal-btn:focus-visible { outline-color: #FFFFFF; }
+.menu-btn { display: none; background: transparent; border: 1px solid rgba(255, 255, 255, 0.35); color: var(--on-accent); border-radius: 10px; width: 42px; height: 42px; cursor: pointer; }
+@media (max-width: 920px) {
+  .nav { gap: 12px; }
+  .menu-btn { display: inline-grid; place-items: center; margin-left: auto; }
+  .links { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 2px; background: var(--header-bg); padding: 8px var(--gutter) 16px; margin: 0; box-shadow: 0 12px 24px rgba(20, 8, 45, 0.3); }
+  .links.open { display: flex; }
+  .links a { padding: 12px 14px; border-radius: 10px; }
+  .portal-btn { padding: 9px 14px; font-size: 14px; }
+}
+@media (max-width: 520px) { .brand small { display: none; } }
+@media (max-width: 400px) { .top .brand > span { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { background: var(--header-bg); color: var(--on-accent); border-radius: 0 0 var(--r-header) var(--r-header); padding-block: 40px 64px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+.hero h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 800; letter-spacing: -0.035em; }
+.hero h1 em { font-style: normal; color: #DDD0FF; }
+.hero .lead { margin-top: 18px; font-size: clamp(17px, 1.6vw, 19px); color: var(--on-accent-muted); max-width: 34em; }
+.hero .eyebrow { color: #DDD0FF; margin-bottom: 14px; display: block; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: var(--r-pill); text-decoration: none; transition: transform .15s, background .15s; }
+.btn:hover { transform: translateY(-1px); }
+.btn-light { background: #FFFFFF; color: #4C1D95; }
+.btn-ghost { background: transparent; color: var(--on-accent); border: 1.5px solid rgba(255, 255, 255, 0.45); }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: var(--accent-strong); }
+.btn-outline { background: transparent; color: var(--accent-text); border: 1.5px solid var(--border); }
+.btn-sm { padding: 8px 14px; font-size: 14px; }
+.btn[disabled] { opacity: .6; cursor: progress; transform: none; }
+.hero-facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 30px; font-size: 14px; color: var(--on-accent-muted); }
+.hero-facts span { display: inline-flex; align-items: center; gap: 8px; }
+.hero-facts span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #DDD0FF; }
+
+/* Example campaign card in the hero */
+.route-card { background: var(--surface); color: var(--text); border-radius: 20px; padding: 22px; box-shadow: 0 24px 60px rgba(15, 5, 35, 0.35); }
+.route-card .rc-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.route-card .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.route-card h3 { font-size: 20px; margin-top: 6px; }
+.route-card .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.route-card .meta div { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.route-card .meta b { display: block; font-size: 17px; font-variant-numeric: tabular-nums; }
+.route-card .meta small { color: var(--muted); font-size: 12px; }
+.progress { height: 10px; background: var(--accent-tint); border-radius: var(--r-pill); overflow: hidden; margin-top: 18px; }
+.progress i { display: block; height: 100%; width: 75%; background: var(--accent); border-radius: inherit; }
+.route-card .pfoot { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+.stops { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; }
+.stops li { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; }
+.stops .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--accent-tint); color: var(--accent-text); }
+.stops .done .dot { background: var(--accent); color: #FFFFFF; }
+.stops .stat { margin-left: auto; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 36px; } .route-card { max-width: 460px; } }
+
+/* ---------- Sections ---------- */
+section.block { padding-block: clamp(64px, 9vw, 104px); }
+.sec-head { display: grid; gap: 12px; max-width: 640px; margin-bottom: 40px; }
+.sec-head h2 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 800; }
+.sec-head p { color: var(--muted); font-size: 17px; }
+
+.services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.service { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 26px; display: grid; gap: 10px; align-content: start; }
+.service .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+.service h3 { font-size: 20px; }
+.service p { color: var(--muted); }
+.service .formats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.chip { font-family: var(--mono); font-size: 12px; padding: 3px 10px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+@media (max-width: 720px) { .services { grid-template-columns: 1fr; } }
+
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: step; }
+.steps li { position: relative; padding-top: 58px; }
+.steps li::before { counter-increment: step; content: counter(step); position: absolute; top: 0; left: 0; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--accent); color: var(--on-accent); }
+.steps li::after { content: ""; position: absolute; top: 21px; left: 54px; right: -4px; height: 2px; background: var(--border); }
+.steps li:last-child::after { display: none; }
+.steps h3 { font-size: 18px; margin-bottom: 6px; }
+.steps p { color: var(--muted); font-size: 15px; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; row-gap: 32px; } .steps li::after { display: none; } }
+@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+
+.band { background: var(--surface-2); }
+.coverage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.area { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 26px; }
+.area-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.area h3 { font-size: 24px; }
+.area .code { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.area p { color: var(--muted); margin-top: 8px; }
+.area .districts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.coverage-note { margin-top: 20px; color: var(--muted); }
+@media (max-width: 720px) { .coverage { grid-template-columns: 1fr; } }
+
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.about-text { display: grid; gap: 16px; font-size: 17px; max-width: 34em; }
+.about-text p { color: var(--muted); }
+.values { display: grid; gap: 12px; }
+.value { display: flex; gap: 14px; padding: 18px; border-radius: var(--r-card); border: 1px solid var(--border); background: var(--surface); }
+.value .ico { width: 36px; height: 36px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+.value h3 { font-size: 16px; }
+.value p { color: var(--muted); font-size: 15px; }
+@media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 32px; } }
+
+.contact { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; align-items: start; }
+.contact-info { display: grid; gap: 18px; }
+.contact-info dl { margin: 0; display: grid; gap: 14px; }
+.contact-info dt { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.contact-info dd { margin: 2px 0 0; font-weight: 700; font-size: 17px; overflow-wrap: anywhere; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 26px; }
+@media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+
+/* ---------- Forms ---------- */
+.form { display: grid; gap: 14px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-size: 14px; font-weight: 700; }
+.field .hint { font-size: 13px; color: var(--muted); }
+.field input, .field select, .field textarea { width: 100%; min-width: 0; min-width: 0; padding: 11px 13px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); transition: border-color .15s; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent-text); box-shadow: 0 0 0 3px var(--accent-tint); }
+.field textarea { min-height: 110px; resize: vertical; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+.check input { margin-top: 4px; accent-color: var(--accent); }
+.msg { font-size: 14px; padding: 10px 12px; border-radius: 10px; }
+.msg.err { background: rgba(185, 28, 28, 0.10); color: var(--danger); }
+.msg.ok { background: var(--ok-tint); color: var(--ok); }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--border); padding-block: 32px; color: var(--muted); font-size: 14px; }
+.foot { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.foot a { color: var(--muted); text-decoration: none; }
+.foot a:hover { color: var(--accent-text); }
+
+/* ---------- Modal ---------- */
+.overlay { position: fixed; inset: 0; z-index: 60; background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 16px; overflow-y: auto; }
+.modal { width: min(460px, 100%); background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.modal-head { background: var(--header-bg); color: var(--on-accent); padding: 22px 24px 0; position: relative; }
+.modal-head h2 { font-size: 22px; }
+.modal-head p { color: var(--on-accent-muted); font-size: 14px; margin-top: 4px; }
+.close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.14); color: var(--on-accent); cursor: pointer; font-size: 20px; line-height: 1; }
+.tabs { display: flex; gap: 4px; margin-top: 18px; }
+.tabs button { flex: 1; border: 0; cursor: pointer; padding: 12px; font-weight: 700; background: transparent; color: var(--on-accent-muted); border-radius: 12px 12px 0 0; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--accent-text); }
+.modal-body { padding: 24px; }
+.demo-note { font-size: 13px; color: var(--muted); background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin-bottom: 16px; }
+.demo-note code { font-family: var(--mono); font-size: 12px; color: var(--text); }
+
+/* ---------- Portal dashboard ---------- */
+.portal { position: fixed; inset: 0; z-index: 50; background: var(--bg); overflow-y: auto; }
+.portal-top { position: sticky; top: 0; z-index: 2; background: var(--header-bg); color: var(--on-accent); padding-top: env(safe-area-inset-top, 0px); }
+.portal-top .nav { min-height: 64px; }
+.who { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--on-accent-muted); min-width: 0; }
+.who b { color: var(--on-accent); }
+.who .role { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.16); color: var(--on-accent); }
+@media (max-width: 600px) { .who .name { display: none; } }
+.portal-hero { background: var(--header-bg); color: var(--on-accent); border-radius: 0 0 var(--r-header) var(--r-header); padding-block: 8px 36px; }
+.portal-hero h1 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 800; }
+.portal-hero p { color: var(--on-accent-muted); margin-top: 6px; }
+.portal-main { padding-block: 28px 64px; display: grid; gap: 24px; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: -54px; }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 16px 18px; box-shadow: var(--shadow); }
+.kpi b { display: block; font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.kpi small { color: var(--muted); font-size: 13px; }
+@media (max-width: 720px) { .stats { grid-template-columns: 1fr 1fr; } }
+.panel-grid { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 24px; align-items: start; }
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+@media (max-width: 960px) { .panel-grid, .two-col { grid-template-columns: 1fr; } }
+.admin-view { display: grid; gap: 24px; }
+.card h2 { font-size: 19px; margin-bottom: 4px; }
+.card .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+.table-wrap { overflow-x: auto; margin-inline: -4px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 10px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 12px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+th.num { text-align: right; }
+td .t { font-weight: 700; }
+td .s { color: var(--muted); font-size: 13px; }
+.pill { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-pill); white-space: nowrap; }
+.pill.pending { background: var(--warn-tint); color: var(--warn); }
+.pill.approved { background: var(--info-tint); color: var(--info); }
+.pill.scheduled { background: var(--accent-tint); color: var(--accent-text); }
+.pill.delivered { background: var(--ok-tint); color: var(--ok); }
+.pill.cancelled { background: var(--surface-2); color: var(--muted); }
+.status-select { padding: 6px 8px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); font-size: 13px; }
+.empty { text-align: center; color: var(--muted); padding: 28px 12px; }
+.empty b { display: block; color: var(--text); margin-bottom: 4px; }
+.msg-list { display: grid; gap: 10px; }
+.msg-item { border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.msg-item .mh { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.msg-item .mh span { color: var(--muted); font-size: 13px; }
+.msg-item p { margin-top: 6px; color: var(--muted); font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---------- Coverage planner: pick routes, see them on the map ---------- */
+.cov-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: stretch; }
+@media (max-width: 960px) { .cov-grid { grid-template-columns: 1fr; } }
+.cov-side { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.cov-routes { border: 1px solid var(--border); border-radius: 12px; max-height: 260px; overflow-y: auto; }
+.cov-route { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 14px; }
+.cov-route:last-child { border-bottom: 0; }
+.cov-route:hover { background: var(--surface-2); }
+.cov-route input { accent-color: var(--accent); width: 16px; height: 16px; flex: 0 0 auto; }
+.cov-route .n { flex: 1; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.cov-route .c, .cov-sel li .c { color: var(--muted); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cov-hint { color: var(--muted); font-size: 14px; padding: 14px 12px; }
+.cov-sel { background: var(--surface-2); border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+.cov-sel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.cov-sel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cov-sel li { display: flex; align-items: center; gap: 8px; font-size: 14px; min-width: 0; }
+.cov-sel li .n { min-width: 0; overflow-wrap: anywhere; }
+.cov-sel li .c { margin-left: auto; }
+.cov-x { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; width: 28px; height: 28px; border-radius: 8px; flex: 0 0 auto; }
+.cov-x:hover { background: var(--surface); color: var(--danger); }
+.link-btn { border: 0; background: transparent; color: var(--accent-text); font-weight: 700; font-size: 13px; cursor: pointer; padding: 4px; }
+.link-btn:disabled { color: var(--muted); cursor: default; }
+.cov-total { display: flex; flex-wrap: wrap; gap: 6px 16px; border-top: 1px solid var(--border); padding-top: 10px; font-size: 14px; color: var(--muted); }
+.cov-total b { color: var(--text); font-variant-numeric: tabular-nums; }
+.swatch { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+.cov-map { position: relative; min-height: 460px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--surface-2); }
+@media (max-width: 960px) { .cov-map { min-height: 340px; } }
+.cov-map-canvas { position: absolute; inset: 0; }
+.cov-map-note { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--muted); font-size: 14px; pointer-events: none; }
+.cov-map-note[hidden] { display: none; }
+
+/* ---------- Admin reports ---------- */
+.rep-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; margin-bottom: 16px; }
+.rep-bar .field { flex: 1 1 260px; max-width: 420px; }
+.btn-soft { background: var(--accent-tint); color: var(--accent-text); padding: 11px 18px; font-size: 14px; }
+.btn-soft:hover { background: var(--surface-2); }
+.rep-meta { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
+.banner { background: var(--warn-tint); color: var(--text); font-size: 13px; text-align: center; padding: 8px 16px; }
+.banner b { color: var(--warn); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 80; background: var(--text); color: var(--bg); padding: 12px 18px; border-radius: 12px; font-weight: 600; font-size: 14px; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+</style>
+</head>
+<body>
+
+<div class="banner" id="demoBanner" hidden><b>Preview mode.</b> Accounts and campaigns are kept in this browser tab only. Deploy with the server to store them for real.</div>
+
+<header class="top" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="Kangarooposti home">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect width="34" height="34" rx="10" fill="#FFFFFF"/>
+        <path d="M8 12.5h18v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" fill="#DDD0FF"/>
+        <path d="M8 12.5l9 6.5 9-6.5" fill="none" stroke="#5B21B6" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M8 12.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2" fill="none" stroke="#5B21B6" stroke-width="2"/>
+        <circle cx="25.5" cy="9" r="3.2" fill="#5B21B6"/>
+      </svg>
+      <span>Kangarooposti <small>Rauma · Eurajoki</small></span>
+    </a>
+    <ul class="links" id="links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#coverage">Coverage</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="links">
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="portal-btn" id="portalBtn" type="button">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 14c.8-2.6 3-4 5.5-4s4.7 1.4 5.5 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span id="portalBtnText">Customer <span class="long">portal</span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Flyer &amp; letter delivery in Satakunta</span>
+        <h1>Your advertisement in every mailbox in <em>Rauma and Eurajoki</em>.</h1>
+        <p class="lead">Kangarooposti delivers flyers, leaflets and letters by local carriers who already walk these streets every morning on the newspaper routes. You book online and follow your campaign in the customer portal.</p>
+        <div class="cta-row">
+          <button class="btn btn-light" type="button" data-open="register">Start a campaign</button>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="hero-facts">
+          <span>Local carriers</span>
+          <span>Delivery by week number</span>
+          <span>Status in the portal</span>
+        </div>
+      </div>
+
+      <div class="route-card" aria-label="Example campaign">
+        <div class="rc-head">
+          <span class="tag">Example campaign · vk 42</span>
+          <span class="pill scheduled">Scheduled</span>
+        </div>
+        <h3>Autumn sale flyer</h3>
+        <div class="meta">
+          <div><b>A5</b><small>Format</small></div>
+          <div><b>4 200</b><small>Households</small></div>
+          <div><b>Rauma</b><small>Area</small></div>
+        </div>
+        <div class="progress" aria-hidden="true"><i></i></div>
+        <div class="pfoot"><span>Delivered 3 150 / 4 200</span><span>75 %</span></div>
+        <ul class="stops">
+          <li class="done"><span class="dot"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Keskusta route<span class="stat">1 480</span></li>
+          <li class="done"><span class="dot"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lappi route<span class="stat">1 670</span></li>
+          <li><span class="dot"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="2.5" fill="currentColor"/></svg></span>Kodisjoki route<span class="stat">0 / 1 050</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Services</span>
+        <h2>What we deliver</h2>
+        <p>Choose the material and the area. We plan it into our existing routes, so your message reaches homes together with the morning delivery.</p>
+      </div>
+      <div class="services">
+        <article class="service">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 11h6M9 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Flyers and leaflets</h3>
+          <p>Unaddressed advertising to every household in the areas you choose. Good for shop offers, opening days and local events.</p>
+          <div class="formats"><span class="chip">A5</span><span class="chip">A4</span><span class="chip">DL</span><span class="chip">folded</span></div>
+        </article>
+        <article class="service">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5l8.5 6 8.5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <h3>Addressed letters</h3>
+          <p>Letters and mailings with a name and address, delivered by the carriers who already handle letter routes in the area.</p>
+          <div class="formats"><span class="chip">C5</span><span class="chip">C4</span><span class="chip">E65</span></div>
+        </article>
+        <article class="service">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-7a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <h3>Catalogues and brochures</h3>
+          <p>Thicker printed material such as product catalogues, menus and price lists. Tell us the page count and weight when you book.</p>
+          <div class="formats"><span class="chip">multi-page</span><span class="chip">stapled</span></div>
+        </article>
+        <article class="service">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l6 4V6L7 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 9a4 4 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Local notices</h3>
+          <p>Notices from housing companies, associations and clubs. Delivered to a street, a district or a whole municipality.</p>
+          <div class="formats"><span class="chip">street</span><span class="chip">district</span><span class="chip">municipality</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="block band">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">How it works</span>
+        <h2>From booking to mailbox in four steps</h2>
+        <p>Everything is handled through the customer portal, so you always know where your campaign stands.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Register</h3><p>Create a free customer account with your company details. It takes about a minute.</p></li>
+        <li><h3>Book a campaign</h3><p>Tell us the material, the area, the number of households and the delivery week.</p></li>
+        <li><h3>We confirm the plan</h3><p>We check the routes, send you a quote and agree when the printed material reaches us.</p></li>
+        <li><h3>Delivered and reported</h3><p>Our carriers deliver during the agreed week. You see the status change to Delivered in the portal.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- COVERAGE -->
+  <section id="coverage" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Coverage</span>
+        <h2>Where we deliver</h2>
+        <p>We deliver in the Rauma and Eurajoki municipalities, including the former municipalities that have merged into them.</p>
+      </div>
+      <div class="coverage">
+        <article class="area">
+          <div class="area-head"><h3>Rauma</h3><span class="code">Satakunta</span></div>
+          <p>The town centre and surrounding districts, including Lappi and Kodisjoki.</p>
+          <div class="districts"><span class="chip">Keskusta</span><span class="chip">Vanha Rauma</span><span class="chip">Lappi</span><span class="chip">Kodisjoki</span><span class="chip">Uotila</span><span class="chip">Sampaanala</span></div>
+        </article>
+        <article class="area">
+          <div class="area-head"><h3>Eurajoki</h3><span class="code">Satakunta</span></div>
+          <p>Eurajoki village and the surrounding countryside, including Luvia.</p>
+          <div class="districts"><span class="chip">Kirkonkylä</span><span class="chip">Luvia</span><span class="chip">Irjanne</span><span class="chip">Lapijoki</span></div>
+        </article>
+      </div>
+      <p class="coverage-note">Need delivery somewhere nearby? <a href="#contact">Ask us</a> and we will tell you if we can cover it.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="block band">
+    <div class="wrap about">
+      <div class="about-text">
+        <span class="eyebrow">About us</span>
+        <h2 style="font-size: clamp(28px, 3.6vw, 40px); font-weight: 800;">A local delivery company that knows every street</h2>
+        <p>Kangarooposti is a delivery company based in the Rauma and Eurajoki area. Our carriers deliver newspapers and letters here every morning, so we know the routes, the mailboxes and the apartment buildings.</p>
+        <p>The name comes from the kangaroo's pouch. We carry your message safely and bring it all the way to the door.</p>
+      </div>
+      <div class="values">
+        <div class="value"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/></svg></div><div><h3>Local carriers</h3><p>The same people deliver your flyers and the morning paper.</p></div></div>
+        <div class="value"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 10h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div><h3>Clear schedule</h3><p>Campaigns are booked by week number, the way Finnish businesses plan.</p></div></div>
+        <div class="value"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div><h3>Status you can see</h3><p>Follow each campaign from Pending to Delivered in the customer portal.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="block">
+    <div class="wrap contact">
+      <div class="contact-info">
+        <div class="sec-head" style="margin-bottom: 8px;">
+          <span class="eyebrow">Contact</span>
+          <h2>Ask for a quote</h2>
+          <p>Send us a message and we will reply within one working day.</p>
+        </div>
+        <dl>
+          <div><dt>Email</dt><dd>info@kangarooposti.com</dd></div>
+          <div><dt>Area</dt><dd>Rauma and Eurajoki, Finland</dd></div>
+          <div><dt>Customers</dt><dd>Already a customer? Use the <a href="#" data-open="login">Customer portal</a>.</dd></div>
+        </dl>
+      </div>
+      <form class="card form" id="contactForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="c-msg">Message</label><textarea id="c-msg" name="message" placeholder="What would you like to deliver, where, and when?" required></textarea></div>
+        <div class="msg" id="contactMsg" hidden></div>
+        <div><button class="btn btn-primary" type="submit">Send message</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="year"></span> Kangarooposti · kangarooposti.com</span>
+    <nav aria-label="Footer">
+      <a href="#services">Services</a><a href="#how">How it works</a><a href="#coverage">Coverage</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ============ LOGIN / REGISTER MODAL ============ -->
+<div class="overlay" id="authOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-head">
+      <h2 id="authTitle">Customer portal</h2>
+      <p>Log in to book and follow your campaigns.</p>
+      <button class="close" type="button" id="authClose" aria-label="Close">×</button>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tab-login" aria-selected="true" aria-controls="loginForm">Log in</button>
+        <button type="button" role="tab" id="tab-register" aria-selected="false" aria-controls="registerForm">Register</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="demo-note" id="demoCreds" hidden>
+        Preview accounts: customer <code>demo@customer.fi</code> / <code>demo1234</code>, admin <code>admin@kangarooposti.com</code> / <code>admin1234</code>
+      </div>
+
+      <form class="form" id="loginForm" novalidate>
+        <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="l-pass">Password</label><input id="l-pass" type="password" autocomplete="current-password" required></div>
+        <div class="msg err" id="loginErr" hidden></div>
+        <button class="btn btn-primary" type="submit">Log in</button>
+        <p class="hint" style="font-size: 14px; color: var(--muted);">New customer? <a href="#" data-switch="register">Create an account</a></p>
+      </form>
+
+      <form class="form" id="registerForm" novalidate hidden>
+        <div class="field"><label for="r-company">Company or organisation</label><input id="r-company" autocomplete="organization" required></div>
+        <div class="row2">
+          <div class="field"><label for="r-name">Contact person</label><input id="r-name" autocomplete="name" required></div>
+          <div class="field"><label for="r-phone">Phone <span class="hint">(optional)</span></label><input id="r-phone" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email" required></div>
+        <div class="row2">
+          <div class="field"><label for="r-pass">Password</label><input id="r-pass" type="password" autocomplete="new-password" minlength="8" required></div>
+          <div class="field"><label for="r-pass2">Repeat password</label><input id="r-pass2" type="password" autocomplete="new-password" required></div>
+        </div>
+        <span class="hint" style="font-size: 13px; color: var(--muted);">At least 8 characters.</span>
+        <label class="check"><input type="checkbox" id="r-terms" required> I agree that Kangarooposti stores my contact details to handle my campaigns.</label>
+        <div class="msg err" id="registerErr" hidden></div>
+        <button class="btn btn-primary" type="submit">Create account</button>
+        <p style="font-size: 14px; color: var(--muted);">Already a customer? <a href="#" data-switch="login">Log in</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PORTAL DASHBOARD ============ -->
+<div class="portal" id="portal" hidden>
+  <div class="portal-top">
+    <div class="wrap nav">
+      <a class="brand" href="#home" id="portalHome" aria-label="Back to website">
+        <svg width="30" height="30" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#FFFFFF"/><path d="M8 12.5h18v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" fill="#DDD0FF"/><path d="M8 12.5l9 6.5 9-6.5" fill="none" stroke="#5B21B6" stroke-width="2" stroke-linejoin="round"/><circle cx="25.5" cy="9" r="3.2" fill="#5B21B6"/></svg>
+        <span>Kangarooposti <small>Portal</small></span>
+      </a>
+      <div class="who">
+        <span class="name">Logged in as <b id="whoName"></b></span>
+        <span class="role" id="whoRole"></span>
+        <button class="portal-btn" type="button" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+  </div>
+  <div class="portal-hero">
+    <div class="wrap">
+      <h1 id="portalTitle">Welcome</h1>
+      <p id="portalSub"></p>
+      <div style="height: 40px"></div>
+    </div>
+  </div>
+  <div class="wrap portal-main">
+    <div class="stats" id="stats"></div>
+
+    <!-- Customer view -->
+    <div class="panel-grid" id="customerView" hidden>
+      <form class="card form" id="campaignForm" novalidate>
+        <div><h2>Book a campaign</h2><p class="sub">We confirm the plan and send a quote by email.</p></div>
+        <div class="field"><label for="k-title">Campaign name</label><input id="k-title" placeholder="e.g. Christmas opening hours" required></div>
+        <div class="row2">
+          <div class="field"><label for="k-area">Area</label>
+            <select id="k-area"><option>Rauma</option><option>Eurajoki</option><option>Rauma and Eurajoki</option></select></div>
+          <div class="field"><label for="k-format">Material</label>
+            <select id="k-format"><option>Flyer A5</option><option>Flyer A4</option><option>Flyer DL</option><option>Catalogue / brochure</option><option>Addressed letter</option><option>Local notice</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="k-qty">Households</label><input id="k-qty" type="number" min="50" step="50" placeholder="2000" required></div>
+          <div class="field"><label for="k-date">Delivery from</label><input id="k-date" type="date" required><span class="hint" id="k-week"></span></div>
+        </div>
+        <div class="field"><label for="k-notes">Notes <span class="hint">(optional)</span></label><textarea id="k-notes" placeholder="Streets to include or skip, weight of the material, print delivery date…"></textarea></div>
+        <div class="msg" id="campaignMsg" hidden></div>
+        <button class="btn btn-primary" type="submit">Send booking</button>
+      </form>
+      <div class="card">
+        <h2>Your campaigns</h2>
+        <p class="sub">Status updates appear here as we plan and deliver.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Campaign</th><th>Week</th><th class="num">Households</th><th>Status</th></tr></thead>
+          <tbody id="myCampaigns"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- Coverage planner (customers and admin): delivery routes from PaperTrail, drawn on a map -->
+    <div class="card" id="coverageView" hidden>
+      <h2>Plan your marketing area</h2>
+      <p class="sub">Choose a region and a city, then tick the delivery routes you want to reach. Every ticked route is drawn on the map, so you can grow or shrink your area.</p>
+      <div class="msg err" id="covMsg" hidden></div>
+      <div class="cov-grid">
+        <div class="cov-side">
+          <div class="row2">
+            <div class="field"><label for="cov-region">Region</label><select id="cov-region"></select></div>
+            <div class="field"><label for="cov-city">City</label><select id="cov-city" disabled></select></div>
+          </div>
+          <div class="cov-routes" id="covRoutes" aria-label="Routes in the chosen city"><div class="cov-hint">Choose a region and a city to see its routes.</div></div>
+          <div class="cov-sel">
+            <div class="cov-sel-head"><b>Selected routes</b><button type="button" class="link-btn" id="covClear" disabled>Clear all</button></div>
+            <ul id="covSelected"></ul>
+            <div class="cov-total" id="covTotal"></div>
+          </div>
+        </div>
+        <div class="cov-map">
+          <div class="cov-map-canvas" id="covMap"></div>
+          <div class="cov-map-note" id="covMapNote">Tick a route to see it on the map.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin view -->
+    <div id="adminView" class="admin-view" hidden>
+      <div class="card">
+        <h2>All campaigns</h2>
+        <p class="sub">Change the status to keep customers informed.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Campaign</th><th>Customer</th><th>Week</th><th class="num">Households</th><th>Status</th></tr></thead>
+          <tbody id="allCampaigns"></tbody>
+        </table></div>
+      </div>
+      <div class="card" id="reportsCard">
+        <h2>Reports</h2>
+        <p class="sub">Delivery reports from the PaperTrail app.</p>
+        <div class="msg err" id="repMsg" hidden></div>
+        <div class="rep-bar" id="repBar" hidden>
+          <div class="field"><label for="rep-pick">Report</label><select id="rep-pick"></select></div>
+          <button class="btn btn-soft" type="button" id="repCsv" hidden>Download CSV</button>
+        </div>
+        <div id="repBody"><div class="empty"><b>No reports yet</b>Reports you ask for will appear here.</div></div>
+      </div>
+      <div class="two-col" id="adminLower">
+        <div class="card">
+          <h2>Customers</h2>
+          <p class="sub">Everyone who has registered in the portal.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Company</th><th>Contact</th><th>Joined</th></tr></thead>
+            <tbody id="customerRows"></tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <h2>Messages</h2>
+          <p class="sub">Sent from the contact form on the website.</p>
+          <div class="msg-list" id="messageList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const nf = new Intl.NumberFormat('fi-FI');
+  const STATUSES = ['pending', 'approved', 'scheduled', 'delivered', 'cancelled'];
+  const STATUS_LABEL = { pending: 'Pending', approved: 'Approved', scheduled: 'Scheduled', delivered: 'Delivered', cancelled: 'Cancelled' };
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) { /* storage unavailable */ } }
+  };
+
+  // ISO-8601 week number (Finnish "viikko")
+  function isoWeek(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T12:00:00');
+    if (isNaN(d)) return '';
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const day = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - day);
+    const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    return Math.ceil(((t - y0) / 86400000 + 1) / 7);
+  }
+  const fmtDate = (s) => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleDateString('fi-FI'); };
+
+  /* ------------------------------------------------------------------
+     API layer. When the Kangarooposti server is running (/api/health
+     answers), everything goes to the real backend. Otherwise the page
+     runs in preview mode with an in-memory store, so the design can be
+     tried without a server.
+  ------------------------------------------------------------------ */
+  let MODE = 'demo';
+  let token = null;
+
+  const demo = (function () {
+    let id = 10;
+    const users = [
+      { id: 1, role: 'admin', name: 'Kangarooposti admin', company: 'Kangarooposti', email: 'admin@kangarooposti.com', password: 'admin1234', created_at: '2026-09-01T08:00:00Z' },
+      { id: 2, role: 'customer', name: 'Example contact', company: 'Example Flower Shop (sample)', email: 'demo@customer.fi', phone: '', password: 'demo1234', created_at: '2026-09-20T10:00:00Z' }
+    ];
+    const campaigns = [
+      { id: 3, user_id: 2, title: 'Autumn sale flyer', area: 'Rauma', format: 'Flyer A5', quantity: 4200, start_date: '2026-10-12', notes: '', status: 'scheduled', created_at: '2026-09-25T09:00:00Z' },
+      { id: 4, user_id: 2, title: 'Christmas opening hours', area: 'Rauma and Eurajoki', format: 'Flyer DL', quantity: 6500, start_date: '2026-12-07', notes: '', status: 'pending', created_at: '2026-09-28T09:00:00Z' }
+    ];
+    const messages = [];
+    const pub = (u) => { const { password, ...rest } = u; return rest; };
+    const err = (status, error) => { const e = new Error(error); e.status = status; throw e; };
+    const me = () => users.find((u) => 'demo-' + u.id === token) || err(401, 'Please log in again.');
+    const withCustomer = (c) => { const u = users.find((x) => x.id === c.user_id) || {}; return { ...c, company: u.company, contact_name: u.name, contact_email: u.email }; };
+    return async function (method, path, body) {
+      await new Promise((r) => setTimeout(r, 250));
+      if (method === 'POST' && path === '/auth/login') {
+        const u = users.find((x) => x.email === String(body.email).trim().toLowerCase() && x.password === body.password);
+        if (!u) err(401, 'Email or password is incorrect.');
+        return { token: 'demo-' + u.id, user: pub(u) };
+      }
+      if (method === 'POST' && path === '/auth/register') {
+        const email = String(body.email).trim().toLowerCase();
+        if (users.some((x) => x.email === email)) err(409, 'An account with this email already exists. Log in instead.');
+        const u = { id: ++id, role: 'customer', name: body.name, company: body.company, phone: body.phone, email, password: body.password, created_at: new Date().toISOString() };
+        users.push(u);
+        return { token: 'demo-' + u.id, user: pub(u) };
+      }
+      if (method === 'POST' && path === '/contact') { messages.unshift({ id: ++id, ...body, created_at: new Date().toISOString() }); return { ok: true }; }
+      if (method === 'GET' && path === '/me') return { user: pub(me()) };
+      if (method === 'GET' && path === '/campaigns') {
+        const u = me();
+        const list = u.role === 'admin' ? campaigns : campaigns.filter((c) => c.user_id === u.id);
+        return { campaigns: list.slice().sort((a, b) => b.created_at.localeCompare(a.created_at)).map(withCustomer) };
+      }
+      if (method === 'POST' && path === '/campaigns') {
+        const u = me();
+        const c = { id: ++id, user_id: u.id, ...body, status: 'pending', created_at: new Date().toISOString() };
+        campaigns.push(c);
+        return { campaign: withCustomer(c) };
+      }
+      const m = path.match(/^\/campaigns\/(\d+)$/);
+      if (method === 'PATCH' && m) {
+        if (me().role !== 'admin') err(403, 'Only admins can change the status.');
+        const c = campaigns.find((x) => x.id === +m[1]) || err(404, 'Campaign not found.');
+        c.status = body.status;
+        return { campaign: withCustomer(c) };
+      }
+      if (method === 'GET' && path === '/admin/customers') {
+        if (me().role !== 'admin') err(403, 'Admins only.');
+        return { customers: users.filter((u) => u.role === 'customer').map(pub) };
+      }
+      if (method === 'GET' && path === '/admin/messages') {
+        if (me().role !== 'admin') err(403, 'Admins only.');
+        return { messages };
+      }
+      // reports: one sample, so the table can be previewed
+      if (method === 'GET' && path.startsWith('/admin/reports')) {
+        if (me().role !== 'admin') err(403, 'Admins only.');
+        const sample = { id: 'sample', title: 'Routes per city (sample)', description: 'Example of how a report looks.' };
+        if (path === '/admin/reports') return { reports: [sample] };
+        if (path === '/admin/reports/sample') return { report: { ...sample, generated_at: new Date().toISOString(),
+          columns: [{ key: 'city', label: 'City' }, { key: 'routes', label: 'Routes', type: 'number' }, { key: 'mailboxes', label: 'Mailboxes', type: 'number' }],
+          rows: [{ city: 'Rauma', routes: 2, mailboxes: 420 }, { city: 'Eurajoki', routes: 1, mailboxes: 95 }] } };
+        err(404, 'Report not found.');
+      }
+      // coverage: sample routes (no map in preview mode, there is no Google Maps key without the server)
+      const covRoutes = [
+        { id: 1, city: 5, name: 'Sample route A', mailbox_count: 180, apartment_count: 4 },
+        { id: 2, city: 5, name: 'Sample route B', mailbox_count: 240, apartment_count: 0 },
+        { id: 3, city: 6, name: 'Sample route C', mailbox_count: 95, apartment_count: 2 }
+      ];
+      const covCities = [{ id: 5, name: 'Rauma (sample)' }, { id: 6, name: 'Eurajoki (sample)' }];
+      const covCount = (rs) => ({ route_count: rs.length, mailbox_count: rs.reduce((s, r) => s + r.mailbox_count, 0) });
+      if (path.startsWith('/coverage/')) me();
+      if (method === 'GET' && path === '/coverage/config') return { mapsKey: '' };
+      if (method === 'GET' && path === '/coverage/regions') return { items: [{ id: 1, name: 'Satakunta (sample)', city_count: 2, ...covCount(covRoutes) }] };
+      if (method === 'GET' && path === '/coverage/regions/1/cities') return { items: covCities.map((c) => ({ ...c, ...covCount(covRoutes.filter((r) => r.city === c.id)) })) };
+      const cr = path.match(/^\/coverage\/cities\/(\d+)\/routes$/);
+      if (method === 'GET' && cr) return { items: covRoutes.filter((r) => r.city === +cr[1]).map(({ city, ...r }) => r) };
+      const rm = path.match(/^\/coverage\/routes\/(\d+)\/map$/);
+      if (method === 'GET' && rm) {
+        const r = covRoutes.find((x) => x.id === +rm[1]) || err(404, 'This route is not available right now.');
+        const c = covCities.find((x) => x.id === r.city);
+        return { route: { id: r.id, name: r.name, mailbox_count: r.mailbox_count, apartment_count: r.apartment_count, city: c.name, region: 'Satakunta (sample)', path: '', meters: null } };
+      }
+      err(404, 'Not found');
+    };
+  })();
+
+  async function api(method, path, body) {
+    if (MODE === 'demo') return demo(method, path, body);
+    const res = await fetch('/api' + path, {
+      method,
+      headers: Object.assign({ 'Content-Type': 'application/json' }, token ? { Authorization: 'Bearer ' + token } : {}),
+      body: body ? JSON.stringify(body) : undefined
+    });
+    let data = {};
+    try { data = await res.json(); } catch (e) { /* empty body */ }
+    if (!res.ok) { const e = new Error(data.error || 'Something went wrong. Please try again.'); e.status = res.status; throw e; }
+    return data;
+  }
+
+  async function detectMode() {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 2500);
+      const res = await fetch('/api/health', { signal: ctrl.signal });
+      clearTimeout(t);
+      const data = res.ok ? await res.json() : null;
+      MODE = data && data.ok ? 'live' : 'demo';
+    } catch (e) { MODE = 'demo'; }
+    $('#demoBanner').hidden = MODE !== 'demo';
+    $('#demoCreds').hidden = MODE !== 'demo';
+  }
+
+  /* ---------------- UI helpers ---------------- */
+  let toastTimer;
+  function toast(text) {
+    const el = $('#toast');
+    el.textContent = text; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 3200);
+  }
+  function showMsg(el, text, kind) { el.textContent = text; el.className = 'msg ' + (kind || 'err'); el.hidden = !text; }
+  async function busy(btn, fn) {
+    const label = btn.textContent; btn.disabled = true; btn.textContent = 'Please wait…';
+    try { return await fn(); } finally { btn.disabled = false; btn.textContent = label; }
+  }
+  const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+  /* ---------------- Navigation ---------------- */
+  const menuBtn = $('#menuBtn'), links = $('#links');
+  menuBtn.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  links.addEventListener('click', (e) => { if (e.target.closest('a')) { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); } });
+
+  const top = $('#top');
+  const sections = ['home', 'services', 'how', 'coverage', 'about', 'contact'].map((id) => document.getElementById(id));
+  function onScroll() {
+    top.classList.toggle('scrolled', window.scrollY > 8);
+    let current = 'home';
+    const line = window.innerHeight * 0.35;
+    sections.forEach((s) => { if (s.getBoundingClientRect().top <= line) current = s.id; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = 'contact';
+    $$('#links a').forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  $('#year').textContent = new Date().getFullYear();
+
+  /* ---------------- Auth modal ---------------- */
+  const overlay = $('#authOverlay');
+  let lastFocus = null;
+  function switchTab(which) {
+    const login = which === 'login';
+    $('#tab-login').setAttribute('aria-selected', String(login));
+    $('#tab-register').setAttribute('aria-selected', String(!login));
+    $('#loginForm').hidden = !login;
+    $('#registerForm').hidden = login;
+    $('#authTitle').textContent = login ? 'Customer portal' : 'Become a customer';
+    setTimeout(() => (login ? $('#l-email') : $('#r-company')).focus(), 30);
+  }
+  function openAuth(which) {
+    if (user) { openPortal(); return; }
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    switchTab(which || 'login');
+  }
+  function closeAuth() {
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  $('#portalBtn').addEventListener('click', () => openAuth('login'));
+  $$('[data-open]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); openAuth(b.dataset.open); }));
+  $$('[data-switch]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); switchTab(a.dataset.switch); }));
+  $('#tab-login').addEventListener('click', () => switchTab('login'));
+  $('#tab-register').addEventListener('click', () => switchTab('register'));
+  $('#authClose').addEventListener('click', closeAuth);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAuth(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) closeAuth(); });
+
+  $('#loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = $('#loginErr');
+    const email = $('#l-email').value.trim(), password = $('#l-pass').value;
+    if (!validEmail(email)) return showMsg(errEl, 'Enter the email address you registered with.');
+    if (!password) return showMsg(errEl, 'Enter your password.');
+    showMsg(errEl, '');
+    await busy(e.submitter || $('#loginForm button[type=submit]'), async () => {
+      try { const r = await api('POST', '/auth/login', { email, password }); signedIn(r); }
+      catch (err) { showMsg(errEl, err.message); }
+    });
+  });
+
+  $('#registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = $('#registerErr');
+    const body = {
+      company: $('#r-company').value.trim(), name: $('#r-name').value.trim(), phone: $('#r-phone').value.trim(),
+      email: $('#r-email').value.trim(), password: $('#r-pass').value
+    };
+    if (!body.company || !body.name) return showMsg(errEl, 'Fill in the company and contact person.');
+    if (!validEmail(body.email)) return showMsg(errEl, 'Enter a valid email address, for example name@company.fi.');
+    if (body.password.length < 8) return showMsg(errEl, 'The password needs at least 8 characters.');
+    if (body.password !== $('#r-pass2').value) return showMsg(errEl, 'The passwords do not match.');
+    if (!$('#r-terms').checked) return showMsg(errEl, 'Tick the box to agree that we store your contact details.');
+    showMsg(errEl, '');
+    await busy(e.submitter || $('#registerForm button[type=submit]'), async () => {
+      try { const r = await api('POST', '/auth/register', body); signedIn(r); toast('Account created. Welcome to Kangarooposti!'); }
+      catch (err) { showMsg(errEl, err.message); }
+    });
+  });
+
+  /* ---------------- Contact form ---------------- */
+  $('#contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msgEl = $('#contactMsg');
+    const body = { name: $('#c-name').value.trim(), email: $('#c-email').value.trim(), message: $('#c-msg').value.trim() };
+    if (!body.name || !body.message) return showMsg(msgEl, 'Fill in your name and a message.');
+    if (!validEmail(body.email)) return showMsg(msgEl, 'Enter a valid email so we can reply.');
+    await busy(e.submitter || $('#contactForm button[type=submit]'), async () => {
+      try { await api('POST', '/contact', body); e.target.reset(); showMsg(msgEl, 'Thanks! Your message was sent. We will reply within one working day.', 'ok'); }
+      catch (err) { showMsg(msgEl, err.message); }
+    });
+  });
+
+  /* ---------------- Session & portal ---------------- */
+  let user = null;
+  function signedIn(r) {
+    token = r.token; user = r.user;
+    if (MODE === 'live') store.set('kp_token', token);
+    $('#loginForm').reset(); $('#registerForm').reset();
+    closeAuth();
+    $('#portalBtnText').innerHTML = 'My <span class="long">portal</span>';
+    openPortal();
+  }
+  function logout() {
+    token = null; user = null; store.del('kp_token');
+    resetCoverage();
+    $('#portal').hidden = true; document.body.style.overflow = '';
+    $('#portalBtnText').innerHTML = 'Customer <span class="long">portal</span>';
+    toast('You are logged out.');
+  }
+  $('#logoutBtn').addEventListener('click', logout);
+  $('#portalHome').addEventListener('click', (e) => { e.preventDefault(); $('#portal').hidden = true; document.body.style.overflow = ''; });
+
+  async function openPortal() {
+    $('#portal').hidden = false; $('#portal').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    const admin = user.role === 'admin';
+    $('#whoName').textContent = user.name;
+    $('#whoRole').textContent = admin ? 'Admin' : 'Customer';
+    $('#portalTitle').textContent = admin ? 'Admin dashboard' : 'Hello, ' + (user.company || user.name);
+    $('#portalSub').textContent = admin ? 'Campaigns, customers and messages in one place.' : 'Book a new delivery or check the status of your campaigns.';
+    $('#customerView').hidden = admin;
+    $('#adminView').hidden = !admin;
+    // customers plan their area before booking; for the admin it comes after the dashboard
+    if (admin) $('#adminView').after($('#coverageView')); else $('#customerView').before($('#coverageView'));
+    startCoverage();
+    if (admin) loadReports();
+    try { admin ? await loadAdmin() : await loadCustomer(); }
+    catch (err) { if (err.status === 401) { logout(); openAuth('login'); } else toast(err.message); }
+  }
+
+  function statCards(items) {
+    $('#stats').innerHTML = items.map(([n, l]) => `<div class="kpi"><b>${esc(n)}</b><small>${esc(l)}</small></div>`).join('');
+  }
+  const pill = (s) => `<span class="pill ${esc(s)}">${esc(STATUS_LABEL[s] || s)}</span>`;
+  const weekCell = (c) => c.start_date ? `vk ${isoWeek(String(c.start_date).slice(0, 10))}<div class="s">${esc(fmtDate(c.start_date))}</div>` : '–';
+
+  async function loadCustomer() {
+    const { campaigns } = await api('GET', '/campaigns');
+    const active = campaigns.filter((c) => ['pending', 'approved', 'scheduled'].includes(c.status));
+    const delivered = campaigns.filter((c) => c.status === 'delivered');
+    const households = delivered.reduce((s, c) => s + Number(c.quantity || 0), 0);
+    statCards([[campaigns.length, 'Campaigns booked'], [active.length, 'In progress'], [delivered.length, 'Delivered'], [nf.format(households), 'Households reached']]);
+    $('#myCampaigns').innerHTML = campaigns.length ? campaigns.map((c) => `
+      <tr><td><div class="t">${esc(c.title)}</div><div class="s">${esc(c.format)} · ${esc(c.area)}</div></td>
+      <td>${weekCell(c)}</td><td class="num">${nf.format(c.quantity)}</td><td>${pill(c.status)}</td></tr>`).join('')
+      : `<tr><td colspan="4"><div class="empty"><b>No campaigns yet</b>Book your first delivery with the form.</div></td></tr>`;
+  }
+
+  async function loadAdmin() {
+    const [{ campaigns }, { customers }, { messages }] = await Promise.all([
+      api('GET', '/campaigns'), api('GET', '/admin/customers'), api('GET', '/admin/messages')
+    ]);
+    const pending = campaigns.filter((c) => c.status === 'pending').length;
+    const upcoming = campaigns.filter((c) => c.status === 'scheduled' || c.status === 'approved').length;
+    statCards([[customers.length, 'Customers'], [pending, 'Waiting for review'], [upcoming, 'Approved or scheduled'], [messages.length, 'Messages']]);
+    $('#allCampaigns').innerHTML = campaigns.length ? campaigns.map((c) => `
+      <tr><td><div class="t">${esc(c.title)}</div><div class="s">${esc(c.format)} · ${esc(c.area)}${c.notes ? ' · ' + esc(c.notes) : ''}</div></td>
+      <td><div class="t">${esc(c.company)}</div><div class="s">${esc(c.contact_email)}</div></td>
+      <td>${weekCell(c)}</td><td class="num">${nf.format(c.quantity)}</td>
+      <td><select class="status-select" data-id="${esc(c.id)}" aria-label="Status for ${esc(c.title)}">
+        ${STATUSES.map((s) => `<option value="${s}"${s === c.status ? ' selected' : ''}>${STATUS_LABEL[s]}</option>`).join('')}
+      </select></td></tr>`).join('')
+      : `<tr><td colspan="5"><div class="empty"><b>No campaigns yet</b>Bookings from customers will appear here.</div></td></tr>`;
+    $('#customerRows').innerHTML = customers.length ? customers.map((u) => `
+      <tr><td><div class="t">${esc(u.company)}</div></td><td>${esc(u.name)}<div class="s">${esc(u.email)}${u.phone ? ' · ' + esc(u.phone) : ''}</div></td><td>${esc(fmtDate(u.created_at))}</td></tr>`).join('')
+      : `<tr><td colspan="3"><div class="empty"><b>No customers yet</b>New registrations will appear here.</div></td></tr>`;
+    $('#messageList').innerHTML = messages.length ? messages.map((m) => `
+      <div class="msg-item"><div class="mh"><b>${esc(m.name)} · ${esc(m.email)}</b><span>${esc(fmtDate(m.created_at))}</span></div><p>${esc(m.message)}</p></div>`).join('')
+      : `<div class="empty"><b>No messages yet</b>Messages from the contact form will appear here.</div>`;
+  }
+
+  /* ---------------- Admin reports ----------------
+     The list and the reports come from PaperTrail through our server. A report is { title, columns, rows };
+     it is shown as a table and can be downloaded as CSV (semicolons, which Finnish Excel opens as columns). */
+  let report = null;
+  const repCell = (col, v) => v === null || v === undefined || v === '' ? '–'
+    : col.type === 'number' ? nf.format(v) : col.type === 'date' ? fmtDate(v) : v;
+
+  async function loadReports() {
+    report = null;
+    showMsg($('#repMsg'), '');
+    $('#repCsv').hidden = true;
+    try {
+      const { reports } = await api('GET', '/admin/reports');
+      $('#repBar').hidden = !reports.length;
+      $('#rep-pick').innerHTML = '<option value="">Choose a report…</option>' +
+        reports.map((r) => `<option value="${esc(r.id)}">${esc(r.title)}</option>`).join('');
+      $('#repBody').innerHTML = reports.length
+        ? '<div class="empty"><b>Choose a report</b>Pick one from the list to see it here.</div>'
+        : '<div class="empty"><b>No reports yet</b>Reports you ask for will appear here.</div>';
+    } catch (err) {
+      $('#repBar').hidden = true;
+      $('#repBody').innerHTML = '';
+      showMsg($('#repMsg'), err.message);
+    }
+  }
+
+  async function openReport(id) {
+    report = null; $('#repCsv').hidden = true; showMsg($('#repMsg'), '');
+    if (!id) return loadReports();
+    $('#repBody').innerHTML = '<div class="empty">Loading…</div>';
+    try {
+      report = (await api('GET', '/admin/reports/' + encodeURIComponent(id))).report;
+      const cols = report.columns || [], rows = report.rows || [];
+      $('#repBody').innerHTML = `${report.description ? `<p class="sub">${esc(report.description)}</p>` : ''}
+        <div class="table-wrap"><table>
+          <thead><tr>${cols.map((c) => `<th${c.type === 'number' ? ' class="num"' : ''}>${esc(c.label)}</th>`).join('')}</tr></thead>
+          <tbody>${rows.length ? rows.map((r) => `<tr>${cols.map((c) => `<td${c.type === 'number' ? ' class="num"' : ''}>${esc(repCell(c, r[c.key]))}</td>`).join('')}</tr>`).join('')
+            : `<tr><td colspan="${cols.length || 1}"><div class="empty"><b>No rows</b>This report has nothing to show yet.</div></td></tr>`}</tbody>
+        </table></div>
+        <p class="rep-meta">${rows.length} ${rows.length === 1 ? 'row' : 'rows'} · made ${esc(fmtDate(report.generated_at))}</p>`;
+      $('#repCsv').hidden = !rows.length;
+    } catch (err) { $('#repBody').innerHTML = ''; showMsg($('#repMsg'), err.message); }
+  }
+
+  function downloadCsv() {
+    if (!report) return;
+    const cell = (v) => { const s = String(v ?? ''); return /[";\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    const cols = report.columns || [];
+    const lines = [cols.map((c) => cell(c.label)).join(';'), ...(report.rows || []).map((r) => cols.map((c) => cell(r[c.key])).join(';'))];
+    const url = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = `${report.id}-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  $('#rep-pick').addEventListener('change', (e) => openReport(e.target.value));
+  $('#repCsv').addEventListener('click', downloadCsv);
+
+  /* ---------------- Coverage planner ----------------
+     Region -> city -> routes come from PaperTrail through our server. Ticking a route fetches its road line
+     (one encoded polyline, no stop pins or addresses) and draws it on a Google map in its own colour. */
+  const COV_COLORS = ['#5B21B6', '#DC2626', '#0E7490', '#C2410C', '#15803D', '#BE185D', '#1D4ED8', '#4D7C0F', '#7E22CE', '#B45309'];
+  const cov = { started: false, mapsKey: '', map: null, maps: null, mapsReady: null, routeCache: new Map(), selected: new Map() };
+
+  function decodePolyline(str) {
+    const pts = []; let i = 0, lat = 0, lng = 0;
+    while (i < str.length) {
+      for (const axis of [0, 1]) {
+        let shift = 0, result = 0, b;
+        do { b = str.charCodeAt(i++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20 && i <= str.length);
+        const d = (result & 1) ? ~(result >> 1) : (result >> 1);
+        if (axis === 0) lat += d; else lng += d;
+      }
+      pts.push({ lat: lat / 1e5, lng: lng / 1e5 });
+    }
+    return pts;
+  }
+
+  // Loads the Google Maps script once. Resolves false when there is no key, it fails or takes too long (a later try starts over).
+  function loadMaps() {
+    if (cov.mapsReady) return cov.mapsReady;
+    cov.mapsReady = new Promise((resolve) => {
+      if (!cov.mapsKey) return resolve(false);
+      if (window.google && window.google.maps) return resolve(true);
+      const s = document.createElement('script');
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(cov.mapsKey) + '&callback=__kpMapsReady&loading=async';
+      const fail = () => { cov.mapsReady = null; s.remove(); resolve(false); };
+      const timer = setTimeout(fail, 15000);
+      window.__kpMapsReady = () => { clearTimeout(timer); resolve(true); };
+      s.async = true; s.onerror = () => { clearTimeout(timer); fail(); };
+      document.head.appendChild(s);
+    });
+    return cov.mapsReady;
+  }
+
+  async function ensureMap() {
+    if (cov.map) return true;
+    if (!await loadMaps()) return false;
+    const [{ Map, Polyline }, { LatLngBounds }] = await Promise.all([google.maps.importLibrary('maps'), google.maps.importLibrary('core')]);
+    cov.maps = { Polyline, LatLngBounds };
+    cov.map = new Map($('#covMap'), { center: { lat: 61.1282, lng: 21.5117 }, zoom: 12, mapTypeControl: false, streetViewControl: false, fullscreenControl: true, clickableIcons: false,
+      // no business or transit icons: the only marks on this map are the routes
+      styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
+    return true;
+  }
+
+  function covError(err) { showMsg($('#covMsg'), err ? err.message : ''); }
+
+  async function startCoverage() {
+    $('#coverageView').hidden = false;
+    if (cov.started) return;
+    cov.started = true;
+    covError(null);
+    try {
+      const [config, regions] = await Promise.all([api('GET', '/coverage/config'), api('GET', '/coverage/regions')]);
+      cov.mapsKey = config.mapsKey || '';
+      const sel = $('#cov-region');
+      if (!regions.items.length) {
+        sel.innerHTML = '<option value="">No routes yet</option>'; sel.disabled = true;
+        $('#covRoutes').innerHTML = '<div class="cov-hint">No delivery routes are published yet. Please check again soon.</div>';
+        return;
+      }
+      sel.disabled = false;
+      sel.innerHTML = '<option value="">Choose a region…</option>' + regions.items.map((r) =>
+        `<option value="${esc(r.id)}">${esc(r.name)}</option>`).join('');
+      if (regions.items.length === 1) { sel.value = regions.items[0].id; await loadCities(); }
+    } catch (err) { cov.started = false; covError(err); }
+    renderSelected();
+  }
+
+  async function loadCities() {
+    const citySel = $('#cov-city'), regionId = $('#cov-region').value;
+    citySel.innerHTML = ''; citySel.disabled = true;
+    $('#covRoutes').innerHTML = '<div class="cov-hint">Choose a city to see its routes.</div>';
+    if (!regionId) return;
+    try {
+      covError(null);
+      const { items } = await api('GET', '/coverage/regions/' + regionId + '/cities');
+      citySel.innerHTML = '<option value="">Choose a city…</option>' + items.map((c) =>
+        `<option value="${esc(c.id)}">${esc(c.name)} (${esc(c.route_count)})</option>`).join('');
+      citySel.disabled = false;
+      if (items.length === 1) { citySel.value = items[0].id; await loadRoutes(); }
+    } catch (err) { covError(err); }
+  }
+
+  async function loadRoutes() {
+    const cityId = $('#cov-city').value, box = $('#covRoutes');
+    if (!cityId) { box.innerHTML = '<div class="cov-hint">Choose a city to see its routes.</div>'; return; }
+    try {
+      covError(null);
+      const { items } = await api('GET', '/coverage/cities/' + cityId + '/routes');
+      box.innerHTML = items.length ? items.map((r) => `
+        <label class="cov-route"><input type="checkbox" value="${esc(r.id)}"${cov.selected.has(r.id) ? ' checked' : ''}>
+          <span class="n">${esc(r.name)}</span><span class="c">${nf.format(r.mailbox_count)} mailboxes</span></label>`).join('')
+        : '<div class="cov-hint">No routes in this city yet.</div>';
+    } catch (err) { covError(err); }
+  }
+
+  async function addRoute(id) {
+    let route = cov.routeCache.get(id);
+    if (!route) { route = (await api('GET', '/coverage/routes/' + id + '/map')).route; cov.routeCache.set(id, route); }
+    const used = new Set([...cov.selected.values()].map((s) => s.color));
+    const color = COV_COLORS.find((c) => !used.has(c)) || COV_COLORS[cov.selected.size % COV_COLORS.length];
+    const entry = { ...route, color, line: null };
+    cov.selected.set(id, entry);
+    renderSelected();   // the list updates at once; the line follows when the map is ready
+    if (route.path && await ensureMap() && cov.selected.get(id) === entry) {
+      entry.line = new cov.maps.Polyline({ path: decodePolyline(route.path), strokeColor: color, strokeOpacity: 0.9, strokeWeight: 5, map: cov.map });
+    }
+  }
+
+  function removeRoute(id) {
+    const entry = cov.selected.get(id);
+    if (entry && entry.line) entry.line.setMap(null);
+    cov.selected.delete(id);
+  }
+
+  function fitMap() {
+    if (!cov.map) return;
+    const bounds = new cov.maps.LatLngBounds(); let any = false;
+    for (const s of cov.selected.values()) if (s.line) s.line.getPath().forEach((p) => { bounds.extend(p); any = true; });
+    if (any) cov.map.fitBounds(bounds, 40);
+  }
+
+  function renderSelected() {
+    const items = [...cov.selected.values()];
+    $('#covSelected').innerHTML = items.length ? items.map((s) => `
+      <li><span class="swatch" style="background:${esc(s.color)}"></span><span class="n">${esc(s.name)} <span class="c">${esc(s.city)}</span></span>
+        <span class="c">${nf.format(s.mailbox_count)} mailboxes</span>
+        <button type="button" class="cov-x" data-id="${esc(s.id)}" aria-label="Remove ${esc(s.name)}">×</button></li>`).join('')
+      : '<li class="c">No routes selected yet.</li>';
+    const mailboxes = items.reduce((n, s) => n + Number(s.mailbox_count || 0), 0);
+    const apartments = items.reduce((n, s) => n + Number(s.apartment_count || 0), 0);
+    $('#covTotal').innerHTML = items.length
+      ? `<span><b>${items.length}</b> ${items.length === 1 ? 'route' : 'routes'}</span><span><b>${nf.format(mailboxes)}</b> mailboxes</span>${apartments ? `<span><b>${nf.format(apartments)}</b> apartment buildings</span>` : ''}`
+      : '';
+    $('#covTotal').hidden = !items.length;
+    $('#covClear').disabled = !items.length;
+    const note = $('#covMapNote');
+    note.hidden = Boolean(cov.map);
+    note.textContent = !items.length ? 'Tick a route to see it on the map.'
+      : MODE === 'demo' ? 'The map is shown when the site runs with its server.'
+      : !cov.mapsKey ? 'The map is not set up yet (missing Google Maps key).'
+      : !cov.map ? 'The map could not be loaded. Please try again later.' : '';
+  }
+
+  function resetCoverage() {
+    for (const id of [...cov.selected.keys()]) removeRoute(id);
+    cov.started = false;
+    $('#cov-region').innerHTML = ''; $('#cov-city').innerHTML = ''; $('#cov-city').disabled = true;
+    $('#covRoutes').innerHTML = '<div class="cov-hint">Choose a region and a city to see its routes.</div>';
+    renderSelected();
+  }
+
+  $('#cov-region').addEventListener('change', loadCities);
+  $('#cov-city').addEventListener('change', loadRoutes);
+  $('#covRoutes').addEventListener('change', async (e) => {
+    const box = e.target.closest('input[type=checkbox]'); if (!box) return;
+    const id = Number(box.value);
+    box.disabled = true;
+    try {
+      covError(null);
+      if (box.checked) await addRoute(id); else removeRoute(id);
+      fitMap();
+    } catch (err) { box.checked = false; removeRoute(id); covError(err); }
+    finally { box.disabled = false; renderSelected(); }
+  });
+  $('#covSelected').addEventListener('click', (e) => {
+    const btn = e.target.closest('.cov-x'); if (!btn) return;
+    const id = Number(btn.dataset.id);
+    removeRoute(id);
+    const box = $('#covRoutes').querySelector(`input[value="${id}"]`); if (box) box.checked = false;
+    fitMap(); renderSelected();
+  });
+  $('#covClear').addEventListener('click', () => {
+    for (const id of [...cov.selected.keys()]) removeRoute(id);
+    $('#covRoutes').querySelectorAll('input[type=checkbox]').forEach((b) => { b.checked = false; });
+    renderSelected();
+  });
+
+  $('#allCampaigns').addEventListener('change', async (e) => {
+    const sel = e.target.closest('.status-select'); if (!sel) return;
+    try { await api('PATCH', '/campaigns/' + sel.dataset.id, { status: sel.value }); toast('Status changed to ' + STATUS_LABEL[sel.value] + '.'); await loadAdmin(); }
+    catch (err) { toast(err.message); }
+  });
+
+  const dateInput = $('#k-date');
+  dateInput.min = new Date().toISOString().slice(0, 10);
+  dateInput.addEventListener('input', () => { const w = isoWeek(dateInput.value); $('#k-week').textContent = w ? 'Week ' + w : ''; });
+
+  $('#campaignForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msgEl = $('#campaignMsg');
+    const body = {
+      title: $('#k-title').value.trim(), area: $('#k-area').value, format: $('#k-format').value,
+      quantity: parseInt($('#k-qty').value, 10), start_date: dateInput.value, notes: $('#k-notes').value.trim()
+    };
+    if (!body.title) return showMsg(msgEl, 'Give the campaign a name.');
+    if (!body.quantity || body.quantity < 50) return showMsg(msgEl, 'Enter the number of households (at least 50).');
+    if (!body.start_date) return showMsg(msgEl, 'Choose the date delivery should start.');
+    await busy(e.submitter || $('#campaignForm button[type=submit]'), async () => {
+      try { await api('POST', '/campaigns', body); e.target.reset(); $('#k-week').textContent = ''; showMsg(msgEl, ''); toast('Booking sent. We will confirm it by email.'); await loadCustomer(); }
+      catch (err) { showMsg(msgEl, err.message); }
+    });
+  });
+
+  /* ---------------- Start ---------------- */
+  (async function init() {
+    await detectMode();
+    const saved = MODE === 'live' ? store.get('kp_token') : null;
+    if (saved) {
+      token = saved;
+      try { const r = await api('GET', '/me'); user = r.user; $('#portalBtnText').innerHTML = 'My <span class="long">portal</span>'; }
+      catch (e) { token = null; store.del('kp_token'); }
+    }
+  })();
+})();
+</script>
+</body>
+</html>
