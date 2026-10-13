@@ -5,6 +5,14 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
+// DB_SCHEMA puts the website's tables in their own schema, so it can share one database with the app
+// (whose tables stay in "public"). Unset: tables go in "public" as before.
+const DB_SCHEMA = process.env.USE_MEMORY_DB === 'true' ? '' : (process.env.DB_SCHEMA || '').trim();
+if (DB_SCHEMA && !/^[a-z_][a-z0-9_]{0,62}$/.test(DB_SCHEMA)) {
+  console.error('DB_SCHEMA must be a lower-case name such as web.');
+  process.exit(1);
+}
+
 let pool;
 if (process.env.USE_MEMORY_DB === 'true') {
   const { newDb } = require('pg-mem');
@@ -19,13 +27,15 @@ if (process.env.USE_MEMORY_DB === 'true') {
   }
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined
+    ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined,
+    options: DB_SCHEMA ? `-c search_path=${DB_SCHEMA}` : undefined
   });
 }
 
 const query = (text, params) => pool.query(text, params);
 
 async function init() {
+  if (DB_SCHEMA) await query(`CREATE SCHEMA IF NOT EXISTS ${DB_SCHEMA}`);
   const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
   for (const stmt of schema.split(';').map((s) => s.trim()).filter(Boolean)) {
     await query(stmt);

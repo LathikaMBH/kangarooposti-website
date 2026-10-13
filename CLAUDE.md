@@ -5,7 +5,7 @@ One-page marketing site for Kangarooposti (flyer/letter delivery in Rauma and Eu
 ## Layout
 
 - `server.js`: Express app. Serves `public/` and the JSON API under `/api`. Exports `{ app, init }` and only listens when run directly.
-- `db.js`: Postgres pool (`DATABASE_URL`, `PGSSL`), or `pg-mem` when `USE_MEMORY_DB=true`. `init()` runs `schema.sql` (split on `;`) and removes website-only admins. `saveAdmin()` keeps the local copy of the PaperTrail admin.
+- `db.js`: Postgres pool (`DATABASE_URL`, `PGSSL`, optional `DB_SCHEMA` so the tables live in their own schema in a database shared with the app), or `pg-mem` when `USE_MEMORY_DB=true`. `init()` runs `schema.sql` (split on `;`) and removes website-only admins. `saveAdmin()` keeps the local copy of the PaperTrail admin.
 - `papertrail.js`: server-to-server calls to the PaperTrail delivery app (`PAPERTRAIL_API_URL`, `PAPERTRAIL_API_KEY` sent as `X-Api-Key`). The single admin account lives in PaperTrail: login asks PaperTrail, and when it is offline falls back to the bcrypt copy saved at the last successful login (`users.papertrail_id` set). Customer logins never call PaperTrail.
 - `schema.sql`: `users`, `campaigns`, `messages`. Uses `CREATE TABLE IF NOT EXISTS` only, with no migrations. Schema changes must stay idempotent.
 - `public/index.html`: the whole frontend (HTML, CSS and JS in one file, about 60 KB). Colors are CSS tokens on `:root` with dark-mode overrides. It falls back to an in-memory **preview mode** with sample accounts when `/api/health` is unreachable, so frontend changes must work in both modes.
