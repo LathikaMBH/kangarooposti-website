@@ -8,7 +8,7 @@ const assert = require('node:assert');
 const express = require('express');
 
 // Stand-in PaperTrail: one admin. `paperTrail.up = false` makes it answer like a server that is down.
-const paperTrail = { up: true, calls: 0, admin: { id: 7, name: 'Admin', email: 'admin@kangarooposti.com', password: 'pt-admin-pass-1' } };
+const paperTrail = { up: true, calls: 0, admin: { id: 7, name: 'Admin', email: 'admin@kangodrop.com', password: 'pt-admin-pass-1' } };
 const fake = express().use(express.json()).post('/api/website/admin-login', (req, res) => {
   paperTrail.calls++;
   if (!paperTrail.up) return res.status(503).json({ error: 'Down' });
@@ -26,6 +26,16 @@ fake.get('/api/reports', (req, res) => paperTrail.up ? res.json([{ id: 'routes-p
 fake.get('/api/reports/:id', (req, res) => {
   if (req.params.id !== 'routes-per-city') return res.status(404).json({ error: 'Report not found' });
   res.json({ id: req.params.id, title: 'Routes per city', columns: [{ key: 'city', label: 'City' }], rows: [{ city: 'Rauma' }], query: req.query });
+});
+// route owners: the stand-in keeps the emails it has seen
+const ownerEmails = new Set();
+fake.post('/api/website/owners', (req, res) => {
+  if (!paperTrail.up) return res.status(503).json({ error: 'Down' });
+  if (req.get('x-api-key') !== process.env.PAPERTRAIL_API_KEY) return res.status(401).json({ error: 'Invalid API key' });
+  if (req.body.phone === 'bad') return res.status(400).json({ error: 'Enter the phone number with a country code' });
+  if (ownerEmails.has(req.body.email)) return res.status(409).json({ error: 'Email already exists' });
+  ownerEmails.add(req.body.email);
+  res.status(201).json({ id: 5, name: req.body.name, email: req.body.email, role: 'route_owner', city: req.body.city, phone: req.body.phone, can_ride: false });
 });
 fake.get('/api/catalog/*', (req, res) => {
   if (!paperTrail.up) return res.status(503).json({ error: 'Down' });
@@ -109,12 +119,23 @@ test('full customer and admin flow', async () => {
   assert.equal((await call('GET', '/admin/reports/nope', null, at)).status, 404);
   assert.equal((await call('GET', '/admin/reports/..%2Fcatalog', null, at)).status, 404);
 
+  // route owners: the admin creates them in PaperTrail
+  const owner = { name: 'Olli Owner', email: 'Olli@Owner.fi', phone: '+358401234567', city: 'Rauma', password: 'owner-pass-1' };
+  assert.equal((await call('POST', '/admin/route-owners', owner, ct)).status, 403);
+  const made = await call('POST', '/admin/route-owners', owner, at);
+  assert.equal(made.status, 201); assert.deepEqual(made.data.owner, { id: 5, name: 'Olli Owner', email: 'olli@owner.fi', phone: '+358401234567', city: 'Rauma' });
+  assert.equal((await call('POST', '/admin/route-owners', owner, at)).status, 409);
+  assert.equal((await call('POST', '/admin/route-owners', { ...owner, email: 'x@owner.fi', password: 'short' }, at)).status, 400);
+  assert.equal((await call('POST', '/admin/route-owners', { ...owner, email: 'bad' }, at)).status, 400);
+  assert.equal((await call('POST', '/admin/route-owners', { ...owner, email: 'y@owner.fi', phone: 'bad' }, at)).data.error, 'Enter the phone number with a country code');
+
   // PaperTrail down: the saved copy still works, a wrong password still fails
   paperTrail.up = false;
   assert.equal((await call('POST', '/auth/login', { email: pt.email, password: pt.password })).data.user.role, 'admin');
   assert.equal((await call('POST', '/auth/login', { email: pt.email, password: 'wrong-pass' })).status, 401);
   assert.equal((await call('POST', '/auth/login', { email: 'nobody@testi.fi', password: 'x' })).status, 401);
   assert.equal((await call('GET', '/admin/reports', null, at)).status, 503);
+  assert.equal((await call('POST', '/admin/route-owners', { ...owner, email: 'z@owner.fi' }, at)).status, 503);
   paperTrail.up = true;
 
   // password changed in PaperTrail: the old one stops working while PaperTrail is up

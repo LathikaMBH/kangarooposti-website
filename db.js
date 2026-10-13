@@ -49,7 +49,7 @@ async function saveAdmin(admin, password) {
   );
   if (upd.rows[0]) return upd.rows[0];
   const ins = await query(
-    `INSERT INTO users (role, company, name, email, password_hash, papertrail_id) VALUES ('admin', 'Kangarooposti', $1, $2, $3, $4) RETURNING *`,
+    `INSERT INTO users (role, company, name, email, password_hash, papertrail_id) VALUES ('admin', 'Kangodrop', $1, $2, $3, $4) RETURNING *`,
     [admin.name, email, hash, admin.id]
   );
   return ins.rows[0];
