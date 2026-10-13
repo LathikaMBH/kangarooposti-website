@@ -1,4 +1,4 @@
-# Kangarooposti website (kangarooposti.com)
+# Kangodrop website (kangodrop.com)
 
 A one-page website with a **Customer portal** for advertisers and an **admin dashboard**.
 
@@ -38,18 +38,18 @@ npm start                 # http://localhost:3000
 npm test                  # runs the API tests
 ```
 
-## Deploy (Railway, same as the Kangarooposti app)
+## Deploy (Railway, same as the Kangodrop app)
 
 1. Push this folder to a new GitHub repo.
 2. In Railway: **New project → Deploy from GitHub repo**, then **Add → Database → PostgreSQL**.
 3. In the web service's **Variables**, add `DATABASE_URL` (reference the Postgres one), `PGSSL=true`, `JWT_SECRET`, `PAPERTRAIL_API_URL`, `PAPERTRAIL_API_KEY`.
-4. Under **Settings → Networking → Custom domain**, add `kangarooposti.com` and `www.kangarooposti.com`, then create the CNAME records Railway shows at your domain registrar.
+4. Under **Settings → Networking → Custom domain**, add `kangodrop.com` and `www.kangodrop.com`, then create the CNAME records Railway shows at your domain registrar.
 
 The same app runs on AWS (Elastic Beanstalk / App Runner + RDS PostgreSQL) with the same environment variables.
 
 ## Before going live: things to edit
 
-- **Email address** in the Contact section (`info@kangarooposti.com`). Change it if you use a different one.
+- **Email address** in the Contact section (`info@kangodrop.com`). Change it if you use a different one.
 - **Business ID (Y-tunnus)**: add it to the footer if you want it shown.
 - **Coverage districts**: check the district chips under Coverage match the routes you actually serve.
 - **Privacy notice**: the register form collects names, emails and phone numbers, so GDPR requires a privacy notice (tietosuojaseloste). Add a page and link it from the register checkbox and footer.

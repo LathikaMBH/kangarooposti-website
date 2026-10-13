@@ -1,4 +1,4 @@
-// Kangarooposti website + customer portal API
+// Kangodrop website + customer portal API
 // Serves the one-page site from /public and a small JSON API under /api.
 require('dotenv').config();
 const path = require('path');
@@ -198,6 +198,22 @@ app.get('/api/admin/reports/:id', auth, adminOnly, wrap(async (req, res) => {
   res.status(503).json({ error: REPORTS_DOWN });
 }));
 
+// Route owners live in PaperTrail: the admin creates them here and they sign in to the app.
+app.post('/api/admin/route-owners', auth, adminOnly, wrap(async (req, res) => {
+  const owner = {
+    name: str(req.body.name, 120), email: str(req.body.email).toLowerCase(), password: typeof req.body.password === 'string' ? req.body.password : '',
+    phone: str(req.body.phone, 40), city: str(req.body.city, 80)
+  };
+  if (!owner.name) return res.status(400).json({ error: "Fill in the route owner's name." });
+  if (!EMAIL_RE.test(owner.email)) return res.status(400).json({ error: 'Enter a valid email address.' });
+  if (owner.password.length < 8 || owner.password.length > 100) return res.status(400).json({ error: 'The password needs 8 to 100 characters.' });
+  const r = await papertrail.createOwner(owner);
+  if (r.status === 201) return res.status(201).json({ owner: pick(r.data, ['id', 'name', 'email', 'phone', 'city']) });
+  if (r.status === 409) return res.status(409).json({ error: 'An account with this email already exists in the app.' });
+  if (r.status === 400) return res.status(400).json({ error: r.data.error || "Check the route owner's details." });
+  res.status(503).json({ error: 'The app is not reachable right now. Please try again later.' });
+}));
+
 app.get('/api/admin/messages', auth, adminOnly, wrap(async (req, res) => {
   const { rows } = await query('SELECT * FROM messages ORDER BY created_at DESC LIMIT 200');
   res.json({ messages: rows });
@@ -225,7 +241,7 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   if (!papertrail.configured()) console.warn('PAPERTRAIL_API_URL / PAPERTRAIL_API_KEY are not set: the admin can only sign in with the copy saved at an earlier sign-in.');
-  init().then(() => app.listen(PORT, () => console.log(`Kangarooposti running on http://localhost:${PORT}`)))
+  init().then(() => app.listen(PORT, () => console.log(`Kangodrop running on http://localhost:${PORT}`)))
     .catch((e) => { console.error('Database setup failed:', e); process.exit(1); });
 }
 module.exports = { app, init };

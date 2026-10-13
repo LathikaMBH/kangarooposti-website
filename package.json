@@ -1,7 +1,7 @@
 {
-  "name": "kangarooposti-website",
+  "name": "kangodrop-website",
   "version": "1.0.0",
-  "description": "Kangarooposti one-page website with customer and admin portal",
+  "description": "Kangodrop one-page website with customer and admin portal",
   "main": "server.js",
   "private": true,
   "scripts": {

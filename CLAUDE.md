@@ -1,6 +1,6 @@
-# Kangarooposti website
+# Kangodrop website
 
-One-page marketing site for Kangarooposti (flyer/letter delivery in Rauma and Eurajoki) with a customer portal and admin dashboard. Node 18+, Express, PostgreSQL. No build step, no frontend framework.
+One-page marketing site for Kangodrop (flyer/letter delivery in Rauma and Eurajoki) with a customer portal and admin dashboard. Node 18+, Express, PostgreSQL. No build step, no frontend framework.
 
 ## Layout
 
@@ -27,6 +27,7 @@ npm start           # needs DATABASE_URL, JWT_SECRET (>=32 chars), PAPERTRAIL_AP
 - Auth (Bearer JWT, 7d): `GET /api/me`, `GET /api/campaigns` (admins see all), `POST /api/campaigns` (customers only).
 - Admin: `PATCH /api/campaigns/:id` (status), `GET /api/admin/customers`, `GET /api/admin/messages`.
 - Admin reports (proxied to PaperTrail's `/api/reports`): `GET /api/admin/reports` (list), `GET /api/admin/reports/:id` (one report: `{ title, columns, rows }`, query string passed on). Reports are added in PaperTrail's `backend/reports/index.js`; the Reports card renders any report as a table with CSV download.
+- Admin route owners: `POST /api/admin/route-owners` creates a route owner in PaperTrail (`POST /api/website/owners` there). They sign in to the app (kangodrop.app); the `route-owners` report lists them with route and rider counts.
 - Coverage (any logged-in user, proxied to PaperTrail's `/api/catalog`): `GET /api/coverage/config` (Google Maps key), `/api/coverage/regions`, `/regions/:id/cities`, `/cities/:id/routes`, `/routes/:id/map`. Only allow-listed fields (names, counts, the joined road line) are passed on: customers must never see stop pins or addresses. PaperTrail down gives 503.
 - Allowed values live in `server.js`: `STATUSES`, `AREAS`, `FORMATS`. Keep them in sync with the dropdowns in `index.html`.
 

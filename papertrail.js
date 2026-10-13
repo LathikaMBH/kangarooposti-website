@@ -46,9 +46,22 @@ async function read(path) {
   }
 }
 
+// Create a route owner in PaperTrail. Resolves to { status, data }; status 0 means PaperTrail could not answer.
+async function createOwner(owner) {
+  if (!configured()) return { status: 0, data: {} };
+  try {
+    const r = await call('POST', '/website/owners', owner);
+    if (r.status >= 500 || r.status === 401) console.error(`PaperTrail /website/owners answered ${r.status}: ${r.data.error || 'no message'}`);
+    return r;
+  } catch (e) {
+    console.error(`PaperTrail is unreachable: ${e.message}`);
+    return { status: 0, data: {} };
+  }
+}
+
 // the route catalog: regions, cities, routes, a route's road line
 const catalog = (path) => read(`/catalog${path}`);
 // admin reports: the list, or one report (path '/<id>?<query>')
 const reports = (path) => read(`/reports${path}`);
 
-module.exports = { configured, adminLogin, catalog, reports };
+module.exports = { configured, adminLogin, createOwner, catalog, reports };
